@@ -1,0 +1,2 @@
+heart_beat_app.c:69:5:heart_beat_thread_init	8	static
+heart_beat_app.c:84:13:heart_beat_thread_entry	16	static

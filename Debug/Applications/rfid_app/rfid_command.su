@@ -1,0 +1,8 @@
+rfid_command.c:97:6:rfid_comm_init	8	static
+rfid_command.c:111:6:rfid_comm_deinit	8	static
+rfid_command.c:124:6:rfid_uart_tx_send_string	16	static
+rfid_command.c:140:6:rfid_uart_rx_receive_string_dma	16	static
+rfid_command.c:148:13:rfid_uart_init	16	static
+rfid_command.c:158:13:rfid_uart_deinit	8	static
+rfid_command.c:169:13:rfid_gpio_init	40	static
+rfid_command.c:230:36:rfid_gpio_deinit	8	static

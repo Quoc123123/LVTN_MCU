@@ -1,0 +1,9 @@
+rfid_app.c:102:5:rfid_thread_init	8	static
+rfid_app.c:120:5:control_thread_init	8	static
+rfid_app.c:139:6:rfid_send_msg_to_pc	24	static
+rfid_app.c:166:6:rfid_receive_complete_callback	16	static
+rfid_app.c:233:13:rfid_thread_entry	16	static
+rfid_app.c:253:13:control_thread_entry	16	static
+rfid_app.c:281:13:control_device_init	8	static
+rfid_app.c:288:13:control_wait_dma_from_pc	8	static
+rfid_app.c:293:13:control_release_dma_from_pc	8	static

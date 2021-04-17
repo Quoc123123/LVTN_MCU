@@ -1,0 +1,2 @@
+log_debug.c:69:6:log_debug_init	40	static
+log_debug.c:94:7:_write	24	static
