@@ -19,6 +19,9 @@
 #include "string.h"
 #include "led.h"
 
+
+
+
 /******************************************************************************
 * PREPROCESSOR CONSTANTS
 *******************************************************************************/
@@ -35,7 +38,9 @@
 #define CONTROL_THREAD_STACK_SIZE     		(128 * 4)
 #define CONTROL_THREAD_PRIORITY       		((osPriority_t) osPriorityNormal)
 
-
+#define LED_TURN_OFF						0x00
+#define LED_RED_ON 							0x01
+#define LED_GREEN_ON 					 	0x02
 
 /******************************************************************************
 * PREPROCESSOR MACROS
@@ -45,6 +50,13 @@
 /******************************************************************************
 * TYPEDEFS
 *******************************************************************************/
+
+typedef enum
+{
+	OPEN_DOOR = 0,
+	CLOSE_DOOR,
+
+} CONTROL_DOOR_STATUS;
 
 
 /******************************************************************************
@@ -77,7 +89,8 @@ static osSemaphoreId_t control_device_sem;
 static uint8_t tags_code[TAGS_CODE_SIZE];
 static uint8_t rfid_msg_id = 0;
 static uint8_t rfid_dma_data[1];
-static uint8_t control_value = 0;
+static uint8_t control_value[2];
+
 
 
 /******************************************************************************
@@ -213,7 +226,8 @@ void rfid_receive_complete_callback(UART_HandleTypeDef *huart)
 			(rfid_rx_msg_buf[frame_size - RFID_FRAME_FOOTER_SIZE + 2] == RFID_FRAME_FOOTER_VALUE) && 
 			(rfid_rx_msg_buf[frame_size - RFID_FRAME_FOOTER_SIZE + 3] == RFID_FRAME_FOOTER_VALUE))
 		{
-			control_value = rfid_rx_msg_buf[RFID_FRAME_HEADER_SIZE + RFID_PAYLOAD_LENGHT_SIZE];
+			control_value[0] = rfid_rx_msg_buf[RFID_FRAME_HEADER_SIZE + RFID_PAYLOAD_LENGHT_SIZE];
+			control_value[1] = rfid_rx_msg_buf[RFID_FRAME_HEADER_SIZE + RFID_PAYLOAD_LENGHT_SIZE + 1];
 			control_release_dma_from_pc();
 
 		}
@@ -246,7 +260,7 @@ static void rfid_thread_entry(void *argument)
 			rfid_send_msg_to_pc(tags_code, sizeof(tags_code));
 			HAL_Delay(2);
 		}
-		osDelay(5);
+		osDelay(3);
 	}
 }
 
@@ -260,17 +274,22 @@ static void control_thread_entry(void *argument)
 		{
 			case RFID_REQ_MSG_ID:
 				// TODO: Turn on or turn of the door
-				if(control_value == 0)
+				if(control_value[0] == LED_TURN_OFF)
 				{
-					led_red_on(true);
+					led_red_on(false);
 					led_green_on(false);
 				}
 				else
 				{
-					led_red_on(false);
-					led_green_on(true);
+					if((control_value[1] & LED_RED_ON) == LED_RED_ON)
+					{
+						led_red_on(true);
+					}
+					if((control_value[1] & LED_GREEN_ON) == LED_GREEN_ON)
+					{
+						led_green_on(true);
+					}
 				}
-				break;
 
 			default:
 				break;

@@ -86,9 +86,9 @@ static void heart_beat_thread_entry (void *argument)
     while(1)
     {
         led_blue_on(true);
-        osDelay(500);
+        osDelay(1000);
         led_blue_on(false);
-        osDelay(500);
+        osDelay(1000);
     }
 }
 
