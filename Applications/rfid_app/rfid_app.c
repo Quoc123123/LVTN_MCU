@@ -18,7 +18,7 @@
 #include "mfrc522.h"
 #include "string.h"
 #include "led.h"
-
+#include "control_device.h"
 
 
 
@@ -38,9 +38,9 @@
 #define CONTROL_THREAD_STACK_SIZE     		(128 * 4)
 #define CONTROL_THREAD_PRIORITY       		((osPriority_t) osPriorityNormal)
 
-#define LED_TURN_OFF						0x00
-#define LED_RED_ON 							0x01
-#define LED_GREEN_ON 					 	0x02
+#define LED_TURN_OFF						(0x00)
+#define LED_RED_ON 							(0x01)
+#define LED_GREEN_ON 					 	(0x02)
 
 /******************************************************************************
 * PREPROCESSOR MACROS
@@ -273,21 +273,27 @@ static void control_thread_entry(void *argument)
 		switch (rfid_msg_id)
 		{
 			case RFID_REQ_MSG_ID:
-				// TODO: Turn on or turn of the door
 				if(control_value[0] == LED_TURN_OFF)
 				{
 					led_red_on(false);
 					led_green_on(false);
+					ctrl_dev_spk_on(false);
+					ctrl_dev_relay_on(false);
+
 				}
 				else
 				{
 					if((control_value[1] & LED_RED_ON) == LED_RED_ON)
 					{
 						led_red_on(true);
+						ctrl_dev_spk_on(false);
+						ctrl_dev_relay_on(false);
 					}
 					if((control_value[1] & LED_GREEN_ON) == LED_GREEN_ON)
 					{
 						led_green_on(true);
+						ctrl_dev_spk_on(true);
+						ctrl_dev_relay_on(true);
 					}
 				}
 

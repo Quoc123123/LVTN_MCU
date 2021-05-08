@@ -9,21 +9,19 @@
 /******************************************************************************
 * INCLUDES
 *******************************************************************************/
-#include "led.h"
+#include <control_device.h>
 #include "main.h"
 #include "log_debug.h"
 
 /******************************************************************************
 * PREPROCESSOR CONSTANTS
 *******************************************************************************/
-#define LED_GREEN_GPIO_Port             (GPIOB)
-#define LED_GREEN_Pin            	    (GPIO_PIN_0)
+#define SPEAKER_GPIO_Port           	(GPIOD)
+#define SPEAKER_GPI0_Pin                (GPIO_PIN_0)
 
-#define LED_BLUE_GPIO_Port              (GPIOB)
-#define LED_BLUE_Pin            	    (GPIO_PIN_7)
+#define RELAY_GPIO_Port           		(GPIOD)
+#define RELAY_GPI0_Pin            		(GPIO_PIN_0)
 
-#define LED_RED_GPIO_Port               (GPIOB)
-#define LED_RED_Pin            	        (GPIO_PIN_14)
 
 
 /******************************************************************************
@@ -46,132 +44,105 @@
 /******************************************************************************
 * FUNCTION PROTOTYPES
 *******************************************************************************/
-static void led_gpio_init(void);
-static void led_gpio_deinit(void);
+static void ctrl_dev_gpio_init(void);
+static void ctrl_dev_gpio_deinit(void);
 
 /******************************************************************************
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 /******************************************************************************
-* Function : led_init
+* Function : ctrl_dev_init
 * Brief    : 
 * Input    : None
 * Output   : None.
 * Return   : None.
 *******************************************************************************/
-void led_init(void)
+void ctrl_dev_init(void)
 {
-    led_gpio_init();
+    ctrl_dev_gpio_init();
 }
 
 /******************************************************************************
-* Function : led_deinit
+* Function : ctrl_dev_deinit
 * Brief    : 
 * Input    : None
 * Output   : None.
 * Return   : None.
 *******************************************************************************/
-void led_deinit(void)
+void ctrl_dev_deinit(void)
 {
-    led_gpio_deinit();
+    ctrl_dev_gpio_deinit();
 }
 
 /******************************************************************************
-* Function : led_green_on
+* Function : ctrl_dev_spk_on
 * Brief    : 
 * Input    : None
 * Output   : None.
 * Return   : None.
 *******************************************************************************/
-void led_green_on(bool en)
+void ctrl_dev_spk_on(bool en)
 {
     if(en)
     {
-        HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin, GPIO_PIN_SET);
     }
     else
     {
-        HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin, GPIO_PIN_RESET);
     }
 }
 
 /******************************************************************************
-* Function : led_blue_on
+* Function : ctrl_dev_relay_on
 * Brief    : 
 * Input    : None
 * Output   : None.
 * Return   : None.
 *******************************************************************************/
-void led_blue_on(bool en)
+void ctrl_dev_relay_on(bool en)
 {
     if(en)
     {
-        HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPI0_Pin, GPIO_PIN_SET);
     }
     else
     {
-        HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPI0_Pin, GPIO_PIN_RESET);
     }
 }
 
-/******************************************************************************
-* Function : led_red_on
-* Brief    : 
-* Input    : None
-* Output   : None.
-* Return   : None.
-*******************************************************************************/
-void led_red_on(bool en)
-{
-    if(en)
-    {
-        HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
-    }
-    else
-    {
-        HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-    }
-}
 
 /******************************************************************************
 * STATIC FUNCTIONS
 *******************************************************************************/
-static void led_gpio_init(void)
+static void ctrl_dev_gpio_init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPI0_Pin, GPIO_PIN_RESET);
 
   // GREEN pin
-  GPIO_InitStruct.Pin = LED_GREEN_Pin;
+  GPIO_InitStruct.Pin = SPEAKER_GPI0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(SPEAKER_GPIO_Port, &GPIO_InitStruct);
 
   // BLUE pin
-  GPIO_InitStruct.Pin = LED_BLUE_Pin;
+  GPIO_InitStruct.Pin = RELAY_GPI0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(LED_BLUE_GPIO_Port, &GPIO_InitStruct);
-
-  // RED pin
-  GPIO_InitStruct.Pin = LED_RED_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(LED_RED_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(RELAY_GPIO_Port, &GPIO_InitStruct);
 
 }
 
-static void led_gpio_deinit(void)
+static void ctrl_dev_gpio_deinit(void)
 {
-    HAL_GPIO_DeInit(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-    HAL_GPIO_DeInit(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-    HAL_GPIO_DeInit(LED_RED_GPIO_Port, LED_RED_Pin);
+    HAL_GPIO_DeInit(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin);
+    HAL_GPIO_DeInit(RELAY_GPIO_Port, RELAY_GPI0_Pin);
 }
 
 

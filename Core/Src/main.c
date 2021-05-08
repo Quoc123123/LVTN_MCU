@@ -25,6 +25,7 @@
 #include "rfid_command.h"
 #include "led.h"
 #include "heart_beat_app.h"
+#include "control_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -102,6 +103,7 @@ int main(void)
   MX_GPIO_Init();
   log_debug_init();
   led_init();
+  ctrl_dev_init();
   rfid_comm_init();
 
   /* USER CODE BEGIN 2 */
@@ -290,6 +292,8 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOI_CLK_ENABLE();
+
+
 }
 
 /* USER CODE BEGIN 4 */
