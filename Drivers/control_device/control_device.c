@@ -17,10 +17,10 @@
 * PREPROCESSOR CONSTANTS
 *******************************************************************************/
 #define SPEAKER_GPIO_Port           	(GPIOD)
-#define SPEAKER_GPI0_Pin                (GPIO_PIN_0)
+#define SPEAKER_GPIO_Pin                (GPIO_PIN_0)
 
 #define RELAY_GPIO_Port           		(GPIOD)
-#define RELAY_GPI0_Pin            		(GPIO_PIN_0)
+#define RELAY_GPIO_Pin            		(GPIO_PIN_1)
 
 
 
@@ -85,11 +85,11 @@ void ctrl_dev_spk_on(bool en)
 {
     if(en)
     {
-        HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPIO_Pin, GPIO_PIN_SET);
     }
     else
     {
-        HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPIO_Pin, GPIO_PIN_RESET);
     }
 }
 
@@ -104,11 +104,11 @@ void ctrl_dev_relay_on(bool en)
 {
     if(en)
     {
-        HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPI0_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPIO_Pin, GPIO_PIN_SET);
     }
     else
     {
-        HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPI0_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPIO_Pin, GPIO_PIN_RESET);
     }
 }
 
@@ -120,18 +120,18 @@ static void ctrl_dev_gpio_init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPI0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_GPIO_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_GPIO_Pin, GPIO_PIN_RESET);
 
   // GREEN pin
-  GPIO_InitStruct.Pin = SPEAKER_GPI0_Pin;
+  GPIO_InitStruct.Pin = SPEAKER_GPIO_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(SPEAKER_GPIO_Port, &GPIO_InitStruct);
 
   // BLUE pin
-  GPIO_InitStruct.Pin = RELAY_GPI0_Pin;
+  GPIO_InitStruct.Pin = RELAY_GPIO_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
@@ -141,8 +141,8 @@ static void ctrl_dev_gpio_init(void)
 
 static void ctrl_dev_gpio_deinit(void)
 {
-    HAL_GPIO_DeInit(SPEAKER_GPIO_Port, SPEAKER_GPI0_Pin);
-    HAL_GPIO_DeInit(RELAY_GPIO_Port, RELAY_GPI0_Pin);
+    HAL_GPIO_DeInit(SPEAKER_GPIO_Port, SPEAKER_GPIO_Pin);
+    HAL_GPIO_DeInit(RELAY_GPIO_Port, RELAY_GPIO_Pin);
 }
 
 

@@ -258,7 +258,6 @@ static void rfid_thread_entry(void *argument)
 //															  tags_code[4]);
 
 			rfid_send_msg_to_pc(tags_code, sizeof(tags_code));
-			HAL_Delay(2);
 		}
 		osDelay(3);
 	}
