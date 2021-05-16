@@ -32,7 +32,7 @@
 
 #define RFID_THREAD_NAME           			("rfid_thread")
 #define RFID_THREAD_STACK_SIZE     			(128 * 4)
-#define RFID_THREAD_PRIORITY       			((osPriority_t) osPriorityRealtime)
+#define RFID_THREAD_PRIORITY       			((osPriority_t) osPriorityRealtime1)
 
 #define CONTROL_THREAD_NAME        	  		("control_thread")
 #define CONTROL_THREAD_STACK_SIZE     		(128 * 4)
@@ -259,7 +259,7 @@ static void rfid_thread_entry(void *argument)
 
 			rfid_send_msg_to_pc(tags_code, sizeof(tags_code));
 		}
-		osDelay(3);
+		osDelay(5);
 	}
 }
 
@@ -274,24 +274,26 @@ static void control_thread_entry(void *argument)
 			case RFID_REQ_MSG_ID:
 				if(control_value[0] == LED_TURN_OFF)
 				{
+					// admin turn off all of the devices
 					led_red_on(false);
 					led_green_on(false);
-					ctrl_dev_spk_on(false);
+					ctrl_dev_spk_set_duty(PWM_DUTY_PERCENT_0);
 					ctrl_dev_relay_on(false);
-
 				}
 				else
 				{
 					if((control_value[1] & LED_RED_ON) == LED_RED_ON)
 					{
+						// unknow people -> led red on, speaker emit the singal
 						led_red_on(true);
-						ctrl_dev_spk_on(false);
+						ctrl_dev_spk_set_duty(PWM_DUTY_PERCENT_20);
 						ctrl_dev_relay_on(false);
 					}
 					if((control_value[1] & LED_GREEN_ON) == LED_GREEN_ON)
 					{
+						// right recognition -> led green on, open the door
 						led_green_on(true);
-						ctrl_dev_spk_on(true);
+						ctrl_dev_spk_set_duty(PWM_DUTY_PERCENT_0);
 						ctrl_dev_relay_on(true);
 					}
 				}
