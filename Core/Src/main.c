@@ -26,6 +26,7 @@
 #include "led.h"
 #include "heart_beat_app.h"
 #include "control_device.h"
+#include "push_button_app.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -113,6 +114,8 @@ int main(void)
   rfid_thread_init();
   control_thread_init();
   heart_beat_thread_init();
+  pb_thread_init();
+
   /* USER CODE END 2 */
 
   /* Init scheduler */

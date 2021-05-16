@@ -23,6 +23,8 @@
 #include "stm32f7xx_it.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "push_button_app.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -60,6 +62,8 @@
 /* External variables --------------------------------------------------------*/
 extern UART_HandleTypeDef rfid_uart_cfg;
 extern DMA_HandleTypeDef hdma_uart1_rx;
+
+extern pb_exti_int_cb(void);
 
 /* USER CODE BEGIN EV */
 
@@ -185,6 +189,24 @@ void DMA2_Stream2_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
 
   /* USER CODE END DMA1_Stream5_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  if(__HAL_GPIO_EXTI_GET_IT(PB_GPIO_Pin) != RESET)
+  {
+    __HAL_GPIO_EXTI_CLEAR_IT(PB_GPIO_Pin);
+    pb_exti_int_cb();
+  }
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /******************************************************************************/
