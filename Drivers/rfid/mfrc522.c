@@ -20,8 +20,8 @@
 /******************************************************************************
 * PREPROCESSOR CONSTANTS
 *******************************************************************************/
-#define MFRC522_SPI_CS_GPIO_Port           	(GPIOA)
-#define MFRC522_SPI_CS_Pin            		(GPIO_PIN_4)
+#define MFRC522_SPI_CS_GPIO_Port           	(GPIOB)
+#define MFRC522_SPI_CS_Pin            		(GPIO_PIN_15)
 
 // CLK pin
 #define MFRC522_SPI_CLK_GPIO_Port          	(GPIOA)
@@ -41,14 +41,14 @@
 
 // Enable clock
 #define MFRC522_SPI_CLK_ENABLE()           __HAL_RCC_SPI1_CLK_ENABLE()
-#define MFRC522_SPI_CS_CLK_ENABLE()        __HAL_RCC_GPIOA_CLK_ENABLE()
+#define MFRC522_SPI_CS_CLK_ENABLE()        __HAL_RCC_GPIOB_CLK_ENABLE()
 #define MFRC522_SPI_CLK_CLK_ENABLE()       __HAL_RCC_GPIOA_CLK_ENABLE()
 #define MFRC522_SPI_MOSI_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
 #define MFRC522_SPI_MISO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
 
 // Disable clock
 #define MFRC522_SPI_CLK_DISABLE()          __HAL_RCC_SPI1_CLK_DISABLE()
-#define MFRC522_SPI_CS_DISABLE()           __HAL_RCC_GPIOA_CLK_DISABLE()
+#define MFRC522_SPI_CS_DISABLE()           __HAL_RCC_GPIOB_CLK_DISABLE()
 #define MFRC522_SPI_CLK_CLK_DISABLE()      __HAL_RCC_GPIOA_CLK_DISABLE()
 #define MFRC522_SPI_MOSI_CLK_DISABLE()     __HAL_RCC_GPIOA_CLK_DISABLE()
 #define MFRC522_SPI_MISO_CLK_DISABLE()     __HAL_RCC_GPIOA_CLK_DISABLE()
@@ -235,6 +235,7 @@ void mfrc522_init(void)
   mfrc522_spi_init();
   mfrc522_gpio_init();
   mfrc522_setup();
+  PRINT_INFO_LOG_LINE("RFID driver is initialized successfully !!!");
 }
 
 /******************************************************************************

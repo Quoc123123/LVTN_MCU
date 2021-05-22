@@ -62,6 +62,7 @@ static void led_gpio_deinit(void);
 void led_init(void)
 {
     led_gpio_init();
+    PRINT_INFO_LOG_LINE("LED driver is initialized successfully !!!");
 }
 
 /******************************************************************************

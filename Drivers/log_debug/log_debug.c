@@ -16,18 +16,18 @@
 /******************************************************************************
 * PREPROCESSOR CONSTANTS
 *******************************************************************************/
-#define LOG_DEBUG_UART_INSTANCE   (USART2)
-#define LOG_DEBUG_UART_BAUD_RATE  (19200)
+#define LOG_DEBUG_UART_INSTANCE   (USART3)
+#define LOG_DEBUG_UART_BAUD_RATE  (230400)
 
-#define LOG_DEBUG_UART_TX_PIN      GPIO_PIN_2       // TX : Port A - Pin 2
-#define LOG_DEBUG_UART_TX_PORT     GPIOA
+#define LOG_DEBUG_UART_TX_PIN      GPIO_PIN_10       // TX : Port C - Pin 10
+#define LOG_DEBUG_UART_TX_PORT     GPIOC
 
 
 /******************************************************************************
 * PREPROCESSOR MACROS
 *******************************************************************************/
-#define DEBUG_UART_CLK_EN()         __HAL_RCC_USART2_CLK_ENABLE()
-#define DEBUG_UART_GPIO_CLK_EN()    __HAL_RCC_GPIOA_CLK_ENABLE()
+#define DEBUG_UART_CLK_EN()         __HAL_RCC_USART3_CLK_ENABLE()
+#define DEBUG_UART_GPIO_CLK_EN()    __HAL_RCC_GPIOC_CLK_ENABLE()
 
 
 /******************************************************************************
@@ -83,7 +83,7 @@ void log_debug_init(void)
   gpio_init.Pull      = GPIO_NOPULL;
   gpio_init.Pin       = LOG_DEBUG_UART_TX_PIN;
   gpio_init.Speed     = GPIO_SPEED_FREQ_MEDIUM;
-  gpio_init.Alternate = GPIO_AF7_USART2;
+  gpio_init.Alternate = GPIO_AF7_USART3;
   HAL_GPIO_Init(LOG_DEBUG_UART_TX_PORT, &gpio_init);
 
 #endif

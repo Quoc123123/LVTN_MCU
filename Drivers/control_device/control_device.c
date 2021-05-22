@@ -70,6 +70,7 @@ void ctrl_dev_init(void)
 {
     ctrl_dev_gpio_init();
     ctrl_dev_timer_init();
+    PRINT_INFO_LOG_LINE("Speaker driver is initialized successfully !!!");
 }
 
 /******************************************************************************
